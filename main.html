@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<!-- saved from url=(0039)https://genuine-elf-bf039c.netlify.app/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Invitation</title>
+    <style>
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #0b0704; overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        .screen {
+            position: absolute; width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        #step1-entry { background-color: #0b0704; z-index: 40; }
+        .tap-btn {
+            background: rgba(128, 24, 24, 0.9); color: #fff;
+            padding: 16px 36px; border-radius: 30px; font-weight: bold;
+            font-size: 18px; border: 2px solid #fff; letter-spacing: 1px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6); cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+        #step2-cover { opacity: 0; display: none; z-index: 30; width: 100%; height: 100%; }
+        #step4-website { opacity: 0; display: none; z-index: 10; width: 100%; height: 100%; }
+        iframe {
+            width: 100%; height: 100%; border: none; margin: 0; padding: 0;
+            overflow: auto; -webkit-overflow-scrolling: touch;
+        }
+        #step3-video { background-color: #000; opacity: 0; display: none; z-index: 20; }
+        video { width: 100%; height: 100%; object-fit: contain; }
+
+        /* --- GLOBAL SOFT BOKEH PARTICLES (MOVING TOP TO DOWN) --- */
+        .particle-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; pointer-events: none; z-index: 50; /* Floats over everything safely */
+        }
+        .dot {
+            position: absolute;
+            background: radial-gradient(circle, rgba(244,215,167,0.95) 0%, rgba(244,215,167,0.3) 60%, rgba(244,215,167,0) 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(244, 215, 167, 0.5);
+            animation: floatDownward linear infinite;
+        }
+        /* Changed animation to slide from -10vh (above screen) down to 105vh (below screen) */
+        @keyframes floatDownward {
+            0% { transform: translateY(-10vh) scale(0.4); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(105vh) scale(1.1); opacity: 0; }
+        }
+
+        /* 30 Scattered particles with varying sizes, speeds, and delayed start times */
+        .dot:nth-child(1)  { width: 4px; height: 4px; left: 5%;  animation-duration: 12s; animation-delay: 0s; }
+        .dot:nth-child(2)  { width: 6px; height: 6px; left: 12%; animation-duration: 16s; animation-delay: 3s; }
+        .dot:nth-child(3)  { width: 3px; height: 3px; left: 18%; animation-duration: 10s; animation-delay: 1s; }
+        .dot:nth-child(4)  { width: 5px; height: 5px; left: 24%; animation-duration: 14s; animation-delay: 5s; }
+        .dot:nth-child(5)  { width: 7px; height: 7px; left: 31%; animation-duration: 20s; animation-delay: 2s; }
+        .dot:nth-child(6)  { width: 4px; height: 4px; left: 37%; animation-duration: 13s; animation-delay: 7s; }
+        .dot:nth-child(7)  { width: 5px; height: 5px; left: 44%; animation-duration: 15s; animation-delay: 0s; }
+        .dot:nth-child(8)  { width: 3px; height: 3px; left: 50%; animation-duration: 11s; animation-delay: 4s; }
+        .dot:nth-child(9)  { width: 6px; height: 6px; left: 56%; animation-duration: 17s; animation-delay: 8s; }
+        .dot:nth-child(10) { width: 4px; height: 4px; left: 63%; animation-duration: 12s; animation-delay: 2s; }
+        .dot:nth-child(11) { width: 5px; height: 5px; left: 69%; animation-duration: 14s; animation-delay: 6s; }
+        .dot:nth-child(12) { width: 7px; height: 7px; left: 76%; animation-duration: 19s; animation-delay: 1s; }
+        .dot:nth-child(13) { width: 3px; height: 3px; left: 82%; animation-duration: 9s;  animation-delay: 3s; }
+        .dot:nth-child(14) { width: 6px; height: 6px; left: 88%; animation-duration: 15s; animation-delay: 5s; }
+        .dot:nth-child(15) { width: 4px; height: 4px; left: 95%; animation-duration: 13s; animation-delay: 0s; }
+        .dot:nth-child(16) { width: 5px; height: 5px; left: 8%;  animation-duration: 15s; animation-delay: 6s; }
+        .dot:nth-child(17) { width: 4px; height: 4px; left: 15%; animation-duration: 11s; animation-delay: 2s; }
+        .dot:nth-child(18) { width: 6px; height: 6px; left: 22%; animation-duration: 18s; animation-delay: 7s; }
+        .dot:nth-child(19) { width: 3px; height: 3px; left: 29%; animation-duration: 10s; animation-delay: 4s; }
+        .dot:nth-child(20) { width: 5px; height: 5px; left: 40%; animation-duration: 14s; animation-delay: 1s; }
+        .dot:nth-child(21) { width: 7px; height: 7px; left: 48%; animation-duration: 21s; animation-delay: 9s; }
+        .dot:nth-child(22) { width: 4px; height: 4px; left: 53%; animation-duration: 12s; animation-delay: 3s; }
+        .dot:nth-child(23) { width: 5px; height: 5px; left: 61%; animation-duration: 16s; animation-delay: 0s; }
+        .dot:nth-child(24) { width: 3px; height: 3px; left: 67%; animation-duration: 11s; animation-delay: 5s; }
+        .dot:nth-child(25) { width: 6px; height: 6px; left: 73%; animation-duration: 17s; animation-delay: 2s; }
+        .dot:nth-child(26) { width: 4px; height: 4px; left: 79%; animation-duration: 13s; animation-delay: 8s; }
+        .dot:nth-child(27) { width: 5px; height: 5px; left: 85%; animation-duration: 15s; animation-delay: 4s; }
+        .dot:nth-child(28) { width: 7px; height: 7px; left: 91%; animation-duration: 18s; animation-delay: 6s; }
+        .dot:nth-child(29) { width: 3px; height: 3px; left: 96%; animation-duration: 10s; animation-delay: 1s; }
+        .dot:nth-child(30) { width: 5px; height: 5px; left: 3%;  animation-duration: 14s; animation-delay: 7s; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Global Master Soft Particles Layer (30 Increased Quantity Dots) -->
+    <div class="particle-container">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+
+    <!-- STEP 1: Entry Button -->
+    <div id="step1-entry" class="screen" style="opacity: 0; display: none;">
+        <button class="tap-btn" onclick="openCoverPage()">✦ TAP TO OPEN ✦</button>
+    </div>
+
+    <!-- STEP 2: The Embedded Cover HTML -->
+    <div id="step2-cover" class="screen" style="display: none; opacity: 0;">
+        <iframe id="cover-frame" src="./main_files/cover.html"></iframe>
+    </div>
+
+    <!-- STEP 3: Fullscreen Video Player Screen -->
+    <div id="step3-video" class="screen" style="display: none; opacity: 0;">
+        <video id="invite-video" src="./index_files/invite-video.mp4" playsinline=""></video>
+    </div>
+
+    <!-- STEP 4: Embedded Main Scrolling Website Frame -->
+    <div id="step4-website" class="screen" style="display: block; opacity: 1;">
+        <iframe src="./main_files/main.html"></iframe>
+    </div>
+
+    <audio id="wedding-bg-audio" src="./index_files/bg-music.mp3" loop=""></audio>
+
+    <script>
+        const s1 = document.getElementById('step1-entry');
+        const s2 = document.getElementById('step2-cover');
+        const s3 = document.getElementById('step3-video');
+        const s4 = document.getElementById('step4-website');
+        const video = document.getElementById('invite-video');
+        const audio = document.getElementById('wedding-bg-audio');
+        const coverFrame = document.getElementById('cover-frame');
+
+        function openCoverPage() {
+            s1.style.opacity = '0';
+            setTimeout(() => {
+                s1.style.display = 'none';
+                s2.style.display = 'block';
+                setTimeout(() => { s2.style.opacity = '1'; }, 50);
+                setTimeout(() => {
+                    const frameDoc = coverFrame.contentDocument || coverFrame.contentWindow.document;
+                    frameDoc.body.addEventListener('click', playInvitationVideo);
+                    frameDoc.body.style.cursor = 'pointer';
+                }, 500);
+            }, 600);
+        }
+
+        function playInvitationVideo() {
+            s2.style.opacity = '0';
+            setTimeout(() => {
+                s2.style.display = 'none';
+                s3.style.display = 'flex';
+                s3.style.opacity = '1';
+                video.muted = false; 
+                video.play().catch(err => console.log(err));
+                if (audio) {
+                    audio.volume = 0.5; 
+                    audio.play().catch(err => console.log(err));
+                }
+            }, 600);
+        }
+
+        video.onended = function() {
+            s3.style.opacity = '0';
+            setTimeout(() => {
+                s3.style.display = 'none';
+                s4.style.display = 'block';
+                setTimeout(() => { s4.style.opacity = '1'; }, 50);
+            }, 600);
+        };
+    </script>
+
+
+</body></html>
